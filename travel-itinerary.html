@@ -1,0 +1,180 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex));
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sean & Alison's Blog - Travel Itinerary</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ephesis&family=Open+Sans:wght@300;400;600&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+</head>
+<body>
+     <header class="header">
+    <img src="resources/logo.png" alt="Travel Blog Logo" class="logo" />
+    <h1 class="banner-title">Alison & Sean's Blog</h1>
+    <nav class="top-nav">
+      <div class="nav-container">
+        <a href="index.html" class="top-link">Home</a>
+        <a href="about.html" class="top-link">About</a>
+        <a href="travel-itinerary.html" class="top-link">Itinerary</a>
+        <div class="locations-dropdown top-link">
+  <span class="locations-toggle">Locations</span>
+  <div class="location-dropdown">
+    <a href="albufeira.html" class="location-link">Albufeira</a>
+    <a href="budapest.html" class="location-link">Budapest</a>
+    <a href="corfu.html" class="location-link">Corfu</a>
+    <a href="cyprus.html" class="location-link">Cyprus</a>
+    <a href="edinburgh.html" class="location-link">Edinburgh</a>
+    <a href="faro.html" class="location-link">Faro</a>
+    <a href="london.html" class="location-link">London</a>
+    <a href="philippines.html" class="location-link">Philippines</a>
+    <!-- Nested dropdown for Spain -->
+    <div class="locations-dropdown sub-dropdown">
+      <a class="location-link locations-toggle" href="#">Spain</a>
+      <div class="location-dropdown">
+        <a href="barcelona.html" class="location-link">Barcelona</a>
+        <a href="grazalema.html" class="location-link">Grazalema</a>
+        <a href="lanzarote.html" class="location-link">Lanzarote</a>
+        <a href="nerja.html" class="location-link">Nerja</a>
+        <a href="sevilla.html" class="location-link">Sevilla</a>
+        <a href="tenerife.html" class="location-link">Tenerife</a>
+      </div>
+    </div>
+  </div>
+</div>
+    </nav>
+  </header>
+
+    <main>
+        <div class="container">
+            <section class="posts">
+                <article class="post">
+                    <h2 class="post-title">Travel Itinerary Checklist</h2>
+                    <div class="media-container media-container--side-by-side">
+                        <div class="polaroid">
+                            <img src="resources/itinerary/checklist1.jpg" alt="Travel Checklist">
+                        </div>
+                    </div>
+
+                    <div class="checklist">
+                        <h3>Pre-Trip Planning</h3>
+                        <label><input type="checkbox"> Research destination</label>
+                        <label><input type="checkbox"> Book flights and accommodation</label>
+                        <label><input type="checkbox"> Book activities (e.g., catamaran cruise, scuba diving, mountain biking)</label>
+                        <label><input type="checkbox"> Get travel insurance</label>
+                        <label><input type="checkbox"> Check passport expiry (6+ months)</label>
+                        <label><input type="checkbox"> Transfer money to Monzo</label>
+                        <label><input type="checkbox"> Create a rough itinerary (e.g., beach days, tourist sites)</label>
+                        <label><input type="checkbox"> Download offline maps and travel apps</label>
+
+                        <h3>Packing Essentials</h3>
+                        <label><input type="checkbox"> Passport, ID, and travel documents</label>
+                        <label><input type="checkbox"> Credit cards and some local currency</label>
+                        <label><input type="checkbox"> Comfortable clothing (e.g., beachwear, hiking gear)</label>
+                        <label><input type="checkbox"> Sun protection (sunscreen, hat, sunglasses)</label>
+                        <label><input type="checkbox"> Camera or phone for photos</label>
+                        <label><input type="checkbox"> Travel adapter and charger</label>
+                        <label><input type="checkbox"> Medications and first-aid kit</label>
+                        <label><input type="checkbox"> Swimwear and towel (for beach trips)</label>
+
+                        <h3>Travel Day</h3>
+                        <label><input type="checkbox"> Check-in online for flights</label>
+                        <label><input type="checkbox"> Arrive at airport 2-3 hours early</label>
+                        <label><input type="checkbox"> Keep documents and valuables in carry-on</label>
+                        <label><input type="checkbox"> Pack snacks for the journey</label>
+                        <label><input type="checkbox"> Charge devices and bring power bank</label>
+                        <label><input type="checkbox"> Double-check suitcase for restricted items</label>
+                        <label><input type="checkbox"> Take a photo of your suitcase (for lost baggage claims)</label>
+                    </div>
+                    <div class="polaroid">
+                        <img src="resources/itinerary/checklist2.jpg" alt="Travel Checklist">
+                    </div>
+                </article>
+            </section>
+        </div>
+    </main>
+
+ <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const toggle = document.querySelector(".locations-toggle");
+    const dropdown = document.querySelector(".location-dropdown");
+
+    toggle.addEventListener("click", function (e) {
+      e.preventDefault(); // prevent accidental link
+      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    });
+
+    // Close dropdown when tapping outside
+    document.addEventListener("click", function (e) {
+      if (!e.target.closest(".locations-dropdown")) {
+        dropdown.style.display = "none";
+      }
+    });
+  });
+
+    document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.querySelector('.locations-toggle');
+    const dropdown = document.querySelector('.location-dropdown');
+    const links = dropdown.querySelectorAll('.location-link');
+
+    // Toggle dropdown on tap
+    toggle.addEventListener('click', () => {
+        dropdown.classList.toggle('show');
+    });
+
+    // Close dropdown after a link is clicked
+    links.forEach(link => {
+        link.addEventListener('click', () => {
+            dropdown.classList.remove('show');
+        });
+    });
+
+    // Close if tapping anywhere else
+    document.addEventListener('click', (e) => {
+        if (!dropdown.contains(e.target) && !toggle.contains(e.target)) {
+            dropdown.classList.remove('show');
+        }
+    });
+});
+</script>
+
+</body>
+</html>

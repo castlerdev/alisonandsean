@@ -1,0 +1,167 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); 
+                
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sean & Alison's Blog - About</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ephesis&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+    <img src="resources/logo.png" alt="Travel Blog Logo" class="logo">
+    <h1 class="banner-title">Alison & Sean's Blog</h1>
+    <nav class="top-nav">
+        <div class="nav-container">
+            <a href="index.html" class="top-link">Home</a>
+            <a href="about.html" class="top-link">About</a>
+            <a href="travel-itinerary.html" class="top-link">Itinerary</a>
+            <a href="journal.html" class="top-link">Journal</a>
+            <div class="locations-dropdown top-link">
+                <span class="locations-toggle">Locations</span>
+                <div class="location-dropdown">
+                    <a href="albufeira.html" class="location-link">Albufeira</a>
+                    <a href="budapest.html" class="location-link">Budapest</a>
+                    <a href="corfu.html" class="location-link">Corfu</a>
+                    <a href="cyprus.html" class="location-link">Cyprus</a>
+                    <a href="edinburgh.html" class="location-link">Edinburgh</a>
+                    <a href="faro.html" class="location-link">Faro</a>
+                    <a href="philippines.html" class="location-link">Philippines</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+    <main>
+
+        <div id="strava-runs"></div>
+
+    </main>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const toggle = document.querySelector(".locations-toggle");
+    const dropdown = document.querySelector(".location-dropdown");
+
+    toggle.addEventListener("click", function (e) {
+      e.preventDefault(); // prevent accidental link
+      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    });
+
+    // Close dropdown when tapping outside
+    document.addEventListener("click", function (e) {
+      if (!e.target.closest(".locations-dropdown")) {
+        dropdown.style.display = "none";
+      }
+    });
+  });
+
+    document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.querySelector('.locations-toggle');
+    const dropdown = document.querySelector('.location-dropdown');
+    const links = dropdown.querySelectorAll('.location-link');
+
+    // Toggle dropdown on tap
+    toggle.addEventListener('click', () => {
+        dropdown.classList.toggle('show');
+    });
+
+    // Close dropdown after a link is clicked
+    links.forEach(link => {
+        link.addEventListener('click', () => {
+            dropdown.classList.remove('show');
+        });
+    });
+
+    // Close if tapping anywhere else
+    document.addEventListener('click', (e) => {
+        if (!dropdown.contains(e.target) && !toggle.contains(e.target)) {
+            dropdown.classList.remove('show');
+        }
+    });
+});
+
+
+  const accessToken = "fde96c8b8a35ecb93d4e4d397dd08b6e274ab4ea";
+
+  async function loadStravaRuns() {
+    const res = await fetch('https://www.strava.com/api/v3/athlete/activities?per_page=3', {
+      headers: {
+        Authorization: `Bearer ${fde96c8b8a35ecb93d4e4d397dd08b6e274ab4ea}`
+      }
+    });
+
+    const data = await res.json();
+    const container = document.getElementById("strava-runs");
+
+    data.forEach(run => {
+      if (run.type !== "Run") return;
+
+      const runDiv = document.createElement("div");
+      runDiv.className = "strava-run";
+
+      const date = new Date(run.start_date).toLocaleDateString();
+      const distance = (run.distance / 1000).toFixed(2); // km
+
+      runDiv.innerHTML = `
+        <h3>${run.name}</h3>
+        <p>📅 ${date}</p>
+        <p>🏃 ${distance} km in ${Math.round(run.moving_time / 60)} min</p>
+        <a href="https://www.strava.com/activities/${run.id}" target="_blank">View on Strava</a>
+        <hr />
+      `;
+      container.appendChild(runDiv);
+    });
+  }
+
+  loadStravaRuns();
+
+</script>
+
+</body>
+</html>

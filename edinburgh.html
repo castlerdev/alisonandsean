@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sean & Alison's Blog - Edinburgh</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Ephesis&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+   <header class="header">
+    <img src="resources/logo.png" alt="Travel Blog Logo" class="logo" />
+    <h1 class="banner-title">Alison & Sean's Blog</h1>
+    <nav class="top-nav">
+      <div class="nav-container">
+        <a href="index.html" class="top-link">Home</a>
+        <a href="about.html" class="top-link">About</a>
+        <a href="travel-itinerary.html" class="top-link">Itinerary</a>
+        <div class="locations-dropdown top-link">
+  <span class="locations-toggle">Locations</span>
+  <div class="location-dropdown">
+    <a href="albufeira.html" class="location-link">Albufeira</a>
+    <a href="budapest.html" class="location-link">Budapest</a>
+    <a href="corfu.html" class="location-link">Corfu</a>
+    <a href="cyprus.html" class="location-link">Cyprus</a>
+    <a href="edinburgh.html" class="location-link">Edinburgh</a>
+    <a href="faro.html" class="location-link">Faro</a>
+    <a href="london.html" class="location-link">London</a>
+    <a href="philippines.html" class="location-link">Philippines</a>
+    <!-- Nested dropdown for Spain -->
+    <div class="locations-dropdown sub-dropdown">
+      <a class="location-link locations-toggle" href="#">Spain</a>
+      <div class="location-dropdown">
+        <a href="barcelona.html" class="location-link">Barcelona</a>
+        <a href="grazalema.html" class="location-link">Grazalema</a>
+        <a href="lanzarote.html" class="location-link">Lanzarote</a>
+        <a href="nerja.html" class="location-link">Nerja</a>
+        <a href="sevilla.html" class="location-link">Sevilla</a>
+        <a href="tenerife.html" class="location-link">Tenerife</a>
+      </div>
+    </div>
+  </div>
+</div>
+    </nav>
+  </header>
+
+  <main>
+    <article class="post">
+      <h2 class="post-title">Dean Village</h2>
+      <div class="media-container media-container--side-by-side">
+        <div class="polaroid">
+          <img src="resources/edinburgh/edinburgh1.jpg" alt="Water of Leith, Dean Village" />
+          <span class="polaroid-caption">Water of Leith, Dean Village</span>
+        </div>
+        <div class="polaroid">
+          <img src="resources/edinburgh/edinburgh2.jpg" alt="Sami at Dean Village" />
+          <span class="polaroid-caption">Sami at Dean Village</span>
+        </div>
+        <div class="polaroid">
+          <img src="resources/edinburgh/edinburgh3.jpg" alt="Other Side of the River" />
+          <span class="polaroid-caption">Other Side of the River</span>
+        </div>
+        <div class="polaroid">
+          <img src="resources/edinburgh/edinburgh4.jpg" alt="Dean Village Entrance" />
+          <span class="polaroid-caption">Dean Village Entrance</span>
+        </div>
+      </div>
+      <p>
+        Me, Sami & Mattia at the Water of Leith, Dean Village. We spent the morning at St Mary's Episcopal Cathedral first. The architectural design comes from Sir George Gilbert Scott's inspiration for early Gothic churches and abbeys of Scotland.
+      </p>
+    </article>
+
+    <main>
+    <article class="post">
+      <div class="media-container media-container--side-by-side">
+        <div class="polaroid">
+          <img src="resources/edinburgh/2024/alison-sean-rachel.jpg" alt="Water of Leith, Dean Village" />
+          <span class="polaroid-caption">One Year Ago...</span>
+        </div>
+    </article>
+
+    <article class="post">
+      <h2 class="post-title">City Centre</h2>
+      <div class="media-container media-container--side-by-side">
+        <div class="polaroid">
+          <img src="resources/edinburgh/edinburgh5.jpg" alt="Me, Mattia & Sami" />
+          <span class="polaroid-caption">Me, Mattia & Sami</span>
+        </div>
+        <div class="polaroid">
+          <img src="resources/edinburgh/edinburgh6.jpg" alt="Me & Mattia" />
+          <span class="polaroid-caption">Me & Mattia</span>
+        </div>
+      </div>
+      <p>
+        We spent the afternoon in the city centre, where we visited the Scottish National Gallery and enjoyed a lovely lunch at a local café. The architecture in Edinburgh is stunning, and we loved exploring the cobbled streets and historic buildings.
+      </p>
+    </article>
+  </main>
+
+  <script>
+    // Dropdown functionality
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.querySelector('.locations-toggle');
+      const dropdown = document.querySelector('.location-dropdown');
+      const links = dropdown.querySelectorAll('.location-link');
+
+      toggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        dropdown.classList.toggle('show');
+      });
+
+      links.forEach(link => {
+        link.addEventListener('click', () => {
+          dropdown.classList.remove('show');
+        });
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!dropdown.contains(e.target) && !toggle.contains(e.target)) {
+          dropdown.classList.remove('show');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

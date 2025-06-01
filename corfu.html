@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sean & Alison's Blog - Corfu</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Ephesis&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+   <header class="header">
+    <img src="resources/logo.png" alt="Travel Blog Logo" class="logo" />
+    <h1 class="banner-title">Alison & Sean's Blog</h1>
+    <nav class="top-nav">
+      <div class="nav-container">
+        <a href="index.html" class="top-link">Home</a>
+        <a href="about.html" class="top-link">About</a>
+        <a href="travel-itinerary.html" class="top-link">Itinerary</a>
+        <div class="locations-dropdown top-link">
+  <span class="locations-toggle">Locations</span>
+  <div class="location-dropdown">
+    <a href="albufeira.html" class="location-link">Albufeira</a>
+    <a href="budapest.html" class="location-link">Budapest</a>
+    <a href="corfu.html" class="location-link">Corfu</a>
+    <a href="cyprus.html" class="location-link">Cyprus</a>
+    <a href="edinburgh.html" class="location-link">Edinburgh</a>
+    <a href="faro.html" class="location-link">Faro</a>
+    <a href="london.html" class="location-link">London</a>
+    <a href="philippines.html" class="location-link">Philippines</a>
+    <!-- Nested dropdown for Spain -->
+    <div class="locations-dropdown sub-dropdown">
+      <a class="location-link locations-toggle" href="#">Spain</a>
+      <div class="location-dropdown">
+        <a href="barcelona.html" class="location-link">Barcelona</a>
+        <a href="grazalema.html" class="location-link">Grazalema</a>
+        <a href="lanzarote.html" class="location-link">Lanzarote</a>
+        <a href="nerja.html" class="location-link">Nerja</a>
+        <a href="sevilla.html" class="location-link">Sevilla</a>
+        <a href="tenerife.html" class="location-link">Tenerife</a>
+      </div>
+    </div>
+  </div>
+</div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container">
+      <section class="posts">
+
+        <article class="post">
+          <h2 class="post-title">Corfu Cruise</h2>
+          <div class="media-container media-container--side-by-side">
+            <div class="polaroid">
+              <img src="resources/corfu/coast.JPG" alt="Corfu Coastline from the boat" />
+              <span class="polaroid-caption">Corfu Coast</span>
+            </div>
+            <div class="polaroid">
+              <img src="resources/corfu/cruise.JPG" alt="Cruise boat in Corfu" />
+              <span class="polaroid-caption">Cruise around Corfu</span>
+            </div>
+          </div>
+          <p>We took a cruise around Corfu; the weather was stunning, and we stopped at several scenic spots along the way.</p>
+        </article>
+
+        <article class="post">
+          <h2 class="post-title">Beach Restaurant</h2>
+          <div class="media-container media-container--side-by-side">
+            <div class="polaroid">
+              <img src="resources/corfu/food.JPG" alt="Lunch at the beach bar in Corfu" />
+              <span class="polaroid-caption">Lunch at the Beach Bar</span>
+            </div>
+            <div class="polaroid">
+              <img src="resources/corfu/beach-bar.jpg" alt="Beach bar with ocean view" />
+              <span class="polaroid-caption">Beach Bar</span>
+            </div>
+          </div>
+          <p>We hopped between bars, enjoying the peaceful atmosphere and great weather. Alison got sunburnt, but somehow still managed a tan!</p>
+        </article>
+
+        <article class="post">
+          <h2 class="post-title">Socrates Hotel</h2>
+          <div class="media-container">
+            <div class="polaroid">
+              <img src="resources/corfu/wine2.jpg" alt="Pre-dinner wine at the hotel" />
+              <span class="polaroid-caption">Pre-dinner Wine</span>
+            </div>
+            <div class="media-container media-container--side-by-side">
+              <div class="polaroid">
+                <img src="resources/corfu/wine1.jpg" alt="Alison with wine glass" />
+                <span class="polaroid-caption">More Wine</span>
+              </div>
+              <div class="polaroid">
+                <img src="resources/corfu/meal.jpg" alt="Dinner at Socrates Hotel" />
+                <span class="polaroid-caption">Hotel Meal</span>
+              </div>
+            </div>
+          </div>
+          <p>We stayed at the Socrates Hotel, which was right on the coast with its own beach. The room was spacious and staff were friendly. It was a bit quiet at this time of year, but we enjoyed the peaceful atmosphere.</p>
+        </article>
+
+      </section>
+    </div>
+  </main>
+
+  <script>
+    // Dropdown menu functionality
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.querySelector('.locations-toggle');
+      const dropdown = document.querySelector('.location-dropdown');
+      const links = dropdown.querySelectorAll('.location-link');
+
+      toggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        dropdown.classList.toggle('show');
+      });
+
+      links.forEach(link => {
+        link.addEventListener('click', () => {
+          dropdown.classList.remove('show');
+        });
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!dropdown.contains(e.target) && !toggle.contains(e.target)) {
+          dropdown.classList.remove('show');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
